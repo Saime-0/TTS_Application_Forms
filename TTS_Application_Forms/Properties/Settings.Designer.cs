@@ -73,10 +73,10 @@ namespace TTS_Application_Forms.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int OutputDevice {
+        [global::System.Configuration.DefaultSettingValueAttribute("default device")]
+        public string OutputDevice {
             get {
-                return ((int)(this["OutputDevice"]));
+                return ((string)(this["OutputDevice"]));
             }
             set {
                 this["OutputDevice"] = value;

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CSCore.CoreAudioAPI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,13 +19,6 @@ namespace TTS_Application_Forms
         {
             InitializeComponent();
 
-            IrrKlang.ISoundDeviceList sdl = new(IrrKlang.SoundDeviceListType.PlaybackDevice);
-
-            for (int i = 0; i < sdl.DeviceCount; i++)
-            {
-                comboBoxDemoOutput.Items.Add(sdl.getDeviceDescription(i) + "\n");
-                comboBoxOutputDevice.Items.Add(sdl.getDeviceDescription(i) + "\n");
-            }
             for (int i = 0; i < Params.speakers.Length; i++)
             {
                 comboBoxVoice.Items.Add(Params.speakers[i] + "\n");
@@ -32,43 +27,45 @@ namespace TTS_Application_Forms
             {
                 comboBoxEmotion.Items.Add(Params.emotions[i] + "\n");
             }
-            
+            foreach (var device in DeviceManager.deviceCollection)
+            {
+                comboBoxDemoOutput.Items.Add(device.FriendlyName + "\n");
+                comboBoxOutputDevice.Items.Add(device.FriendlyName + "\n");
+            }
+            //comboBoxDemoOutput.DataSource = Mp3Player._devices;
         }
 
-        //функция которая будет вызывать при загрузке приложения
-        //юудет заполнять элементы на форме, а так же применять их значения
         private void LoadSettings()
         {
+            // params
             comboBoxVoice.SelectedIndex = Properties.Settings.Default.Voice;
             comboBoxEmotion.SelectedIndex = Properties.Settings.Default.Emotion;
             trackBarSpeed.Value = Properties.Settings.Default.Speed;
-            // if (Properties.Settings.Default.DemoOutput >= comboBoxDemoOutput.Items.Count || Properties.Settings.Default.DemoOutput == -1)
-            //{
-            //    Properties.Settings.Default.DemoOutput = 0;
-            //}
-            comboBoxDemoOutput.SelectedIndex = comboBoxDemoOutput.Items.IndexOf((object) Properties.Settings.Default.DemoOutput+"\n");
-            //if (Properties.Settings.Default.OutputDevice >= comboBoxDemoOutput.Items.Count || Properties.Settings.Default.OutputDevice == -1)
-            // {
-            //     Properties.Settings.Default.OutputDevice = 0;
-            //}
-            comboBoxOutputDevice.SelectedIndex = Properties.Settings.Default.OutputDevice;
+
+			// devices
+			comboBoxDemoOutput.SelectedIndex = comboBoxDemoOutput.Items.IndexOf((object) DeviceManager.deviceDemoName + "\n");
+            comboBoxOutputDevice.SelectedIndex = comboBoxOutputDevice.Items.IndexOf((object)DeviceManager.deviceOutputName + "\n");
         }
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             LoadSettings();
-            //  MessageBox.Show(comboBoxDemoOutput.Items.IndexOf((object)comboBoxDemoOutput.SelectedItem.ToString()) + "\n" + comboBoxDemoOutput.SelectedItem.ToString());
         }
 
         private void buttonSaveSettings_Click(object sender, EventArgs e)
         {
+			// devices
+			Properties.Settings.Default.DemoOutput = DeviceManager.deviceDemoName = comboBoxDemoOutput.SelectedItem.ToString().Trim();
+            Properties.Settings.Default.OutputDevice = DeviceManager.deviceOutputName = comboBoxOutputDevice.SelectedItem.ToString().Trim();
+            DeviceManager.ReloadDeviceCollection(); // reload stats
+
+            // params
             Properties.Settings.Default.Voice = comboBoxVoice.SelectedIndex;          
             Properties.Settings.Default.Emotion = comboBoxEmotion.SelectedIndex;        
             Properties.Settings.Default.Speed = trackBarSpeed.Value;
-            Properties.Settings.Default.DemoOutput = comboBoxDemoOutput.SelectedItem.ToString().Trim();
-            Properties.Settings.Default.OutputDevice  = comboBoxOutputDevice.SelectedIndex;  
+            
             Properties.Settings.Default.Save();
-            MessageBox.Show(comboBoxDemoOutput.Items.IndexOf((object)comboBoxDemoOutput.SelectedItem.ToString()) + "\n" + comboBoxDemoOutput.SelectedItem.ToString());
+            // MessageBox.Show(comboBoxDemoOutput.Items.IndexOf((object)comboBoxDemoOutput.SelectedItem.ToString()) + "\n" + comboBoxDemoOutput.SelectedItem.ToString());
             Hide();
         }
 
@@ -104,7 +101,7 @@ namespace TTS_Application_Forms
 
         private void comboBoxDemoOutput_SelectedValueChanged(object sender, EventArgs e)
         {
-
+            // Debug.WriteLine(comboBoxDemoOutput.SelectedItem.ToString());
         }
     }
 }

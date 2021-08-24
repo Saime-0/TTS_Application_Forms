@@ -14,8 +14,8 @@
     <Setting Name="DemoOutput" Type="System.String" Scope="User">
       <Value Profile="(Default)">default device</Value>
     </Setting>
-    <Setting Name="OutputDevice" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="OutputDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">default device</Value>
     </Setting>
     <Setting Name="VoiceMute" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

@@ -10,14 +10,9 @@ namespace TTS_Application_Forms
         public MainForm()
         {
             InitializeComponent();
-            Mp3Player.ISoundEngineInitDevice();
-            Mp3Player.onStatusDeviceAvailableChanged += Mp3Player_onStatusDeviceAvailableChanged;
+            DeviceManager.InitDeviceManager();
+            //Mp3Player.onStatusDeviceAvailableChanged += Mp3Player_onStatusDeviceAvailableChanged;
             
-        }
-
-        private void Mp3Player_onStatusDeviceAvailableChanged(bool status)
-        {
-            MessageBox.Show(Properties.Settings.Default.DemoOutput + "\n" + Mp3Player.isDeviceAvailable);
         }
 
         // v
@@ -67,7 +62,7 @@ namespace TTS_Application_Forms
             var targetText = textBoxTargetText.Text;
             if (!String.IsNullOrWhiteSpace(targetText) || targetText.Length > 0)
                 //if (Properties.Settings.Default.OutputDevice != -1)
-                TextToMp3.Speak(targetText, "audio", Params.speakers[Properties.Settings.Default.Voice], Params.emotions[Properties.Settings.Default.Emotion], Properties.Settings.Default.Speed / 10f);
+                Speecher.Speak(targetText, Params.speakers[Properties.Settings.Default.Voice], Params.emotions[Properties.Settings.Default.Emotion], Properties.Settings.Default.Speed / 10f);
   
         }
 
@@ -210,6 +205,7 @@ namespace TTS_Application_Forms
                 Properties.Settings.Default.VoiceVolume = trackBarVoiceVolume.Value;
 
             }
+            Speecher.musicOutputPlayer.Volume = trackBarVoiceVolume.Value * 10;
         }
 
         private void trackBarVoiceVolume_MouseCaptureChanged(object sender, EventArgs e)
@@ -242,6 +238,7 @@ namespace TTS_Application_Forms
                 Properties.Settings.Default.SoundVolume = trackBarSoundVolume.Value;
 
             }
+            Speecher.musicDemoPlayer.Volume = trackBarSoundVolume.Value * 10;
         }
 
         private void trackBarSoundVolume_MouseCaptureChanged(object sender, EventArgs e)
@@ -253,7 +250,6 @@ namespace TTS_Application_Forms
         private bool turboMode = false;
         private void panel1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Properties.Settings.Default.DemoOutput + "\n" + Mp3Player.isDeviceAvailable);
             if (turboMode)
                 panel1.BackgroundImage = Properties.Resources.enter_gray;
             else

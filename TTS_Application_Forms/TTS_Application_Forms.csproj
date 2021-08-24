@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="CSCore" Version="1.2.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Reference Include="irrKlang.NET4, Version=1.0.6617.18847, Culture=neutral, PublicKeyToken=a854741bd80517c7">
         <HintPath>lib\irrKlang.NET4.dll</HintPath>
       </Reference>
