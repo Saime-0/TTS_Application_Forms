@@ -2,14 +2,17 @@
 {
     public static class Params
     {
+        public static readonly string[] emotions = { "Neutral", "Good", "Evil" };
         public static readonly string[] speakers = 
         { 
-            "kostya", "nick", "jane", "ermil_with_tuning", "tanya", 
-            "levitan", "silaerkan", "smoky", "oksana", "erkanyavas",
-            "zhenya", "tatyana_abramova", "nastya", "omazh", "ermilov",
-            "kolya", "voicesearch", "sasha", "alyss", "robot",
-            "zombie", "dude"
+            "Kostya", "Nick", "Jane", "Ermil_with_tuning", "Tanya", 
+            "Levitan", "Silaerkan", "Smoky", "Oksana", "Erkanyavas",
+            "Zhenya", "Tatyana_abramova", "Nastya", "Omazh", "Ermilov",
+            "Kolya", "Voicesearch", "Sasha", "Alyss", "Robot",
+            "Zombie", "Dude"
         };
-        public static readonly string[] emotions = { "neutral", "good", "evil" };
+
+        public static string folder = "audio";
+
     }
 }

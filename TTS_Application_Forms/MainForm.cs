@@ -11,7 +11,6 @@ namespace TTS_Application_Forms
         {
             InitializeComponent();
             DeviceManager.InitDeviceManager();
-            //Mp3Player.onStatusDeviceAvailableChanged += Mp3Player_onStatusDeviceAvailableChanged;
             
         }
 
@@ -21,10 +20,11 @@ namespace TTS_Application_Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            ToolTip toolTipOpenSettings = new(), toolTipVoiceMute = new(), toolTipSoundMute = new();
-            toolTipOpenSettings.SetToolTip(panelOpenSettings, "Open settings windows.");
-            toolTipOpenSettings.SetToolTip(panelVoiceMute, "Disable audio playback on the \"Output device\" device.");
-            toolTipOpenSettings.SetToolTip(panelSoundMute, "Disable audio playback on the \"Demo output\" device.");
+            ToolTip toolTip1 = new();
+            toolTip1.SetToolTip(panelOpenSettings, "Open settings windows.");
+            toolTip1.SetToolTip(panelVoiceMute, "Disable audio playback on the \"Output device\" device.");
+            toolTip1.SetToolTip(panelSoundMute, "Disable audio playback on the \"Demo output\" device.");
+            notifyIcon1.Text = this.Text = labelFormName.Text;
 
             VoiceMuted = Properties.Settings.Default.VoiceMute;
             if (VoiceMuted)
@@ -55,14 +55,27 @@ namespace TTS_Application_Forms
             if (!SoundMuted) Properties.Settings.Default.SoundVolume = trackBarSoundVolume.Value;
             Properties.Settings.Default.SoundMute = SoundMuted;
             Properties.Settings.Default.Save();
+            notifyIcon1.Visible = false;
+            notifyIcon1.Dispose();
         }
 
         private void buttonPlaySound_Click(object sender, EventArgs e)
         {
+            // TODO: добавить уже очередь. Если вызвать спик в то время как прошлый спик скачивает файл, вернется краш
             var targetText = textBoxTargetText.Text;
             if (!String.IsNullOrWhiteSpace(targetText) || targetText.Length > 0)
-                //if (Properties.Settings.Default.OutputDevice != -1)
-                Speecher.Speak(targetText, Params.speakers[Properties.Settings.Default.Voice], Params.emotions[Properties.Settings.Default.Emotion], Properties.Settings.Default.Speed / 10f);
+            {
+                Speecher.Preset spechPreset = new() { 
+                    speechText = targetText.ToLower(),
+                    speechVoice = Params.speakers[Properties.Settings.Default.Voice].ToLower(),
+                    speechEmotion = Params.emotions[Properties.Settings.Default.Emotion].ToLower(),
+                    speechSpeed = Properties.Settings.Default.Speed / 10f,
+                    speechSoundVolume = trackBarSoundVolume.Value * 10,
+                    speechVoiceVolume = trackBarVoiceVolume.Value * 10
+                };
+                spechPreset.Speak(); 
+
+            }
   
         }
 
@@ -104,6 +117,8 @@ namespace TTS_Application_Forms
             if (e.KeyCode == Keys.Enter)
             {
                 buttonPlaySound_Click(this, EventArgs.Empty);
+            } else if (e.KeyCode == Keys.Escape) {
+                buttonCloseWindow_Click(sender, e);
             }
         }
 
@@ -138,7 +153,7 @@ namespace TTS_Application_Forms
         } 
         private void buttonCloseWindow_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
         }
 
         // Minimize
@@ -239,6 +254,8 @@ namespace TTS_Application_Forms
 
             }
             Speecher.musicDemoPlayer.Volume = trackBarSoundVolume.Value * 10;
+			//Params.demoVolume = trackBarSoundVolume.Value * 10;
+
         }
 
         private void trackBarSoundVolume_MouseCaptureChanged(object sender, EventArgs e)
@@ -256,5 +273,17 @@ namespace TTS_Application_Forms
                 panel1.BackgroundImage = Properties.Resources.thunder_512;
             turboMode = !turboMode;
         }
-    }
+
+		private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+            Show();
+            WindowState = FormWindowState.Normal;
+            Activate();
+		}
+
+		private void buttonStopSound_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

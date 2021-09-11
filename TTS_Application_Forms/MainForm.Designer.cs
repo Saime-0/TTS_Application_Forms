@@ -29,7 +29,10 @@ namespace TTS_Application_Forms
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.panelMain = new System.Windows.Forms.Panel();
+			this.buttonStopSound = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.panelSoundMute = new System.Windows.Forms.Panel();
@@ -43,6 +46,7 @@ namespace TTS_Application_Forms
 			this.labelFormName = new System.Windows.Forms.Label();
 			this.buttonMinimze = new System.Windows.Forms.Button();
 			this.buttonCloseWindow = new System.Windows.Forms.Button();
+			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.panelMain.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarVoiceVolume)).BeginInit();
@@ -53,6 +57,7 @@ namespace TTS_Application_Forms
 			// panelMain
 			// 
 			this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+			this.panelMain.Controls.Add(this.buttonStopSound);
 			this.panelMain.Controls.Add(this.panel1);
 			this.panelMain.Controls.Add(this.pictureBox1);
 			this.panelMain.Controls.Add(this.panelSoundMute);
@@ -70,6 +75,24 @@ namespace TTS_Application_Forms
 			this.panelMain.Size = new System.Drawing.Size(448, 242);
 			this.panelMain.TabIndex = 0;
 			// 
+			// buttonStopSound
+			// 
+			this.buttonStopSound.BackColor = System.Drawing.Color.OrangeRed;
+			this.buttonStopSound.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonStopSound.FlatAppearance.BorderSize = 0;
+			this.buttonStopSound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonStopSound.Font = new System.Drawing.Font("JetBrains Mono Medium", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.buttonStopSound.ForeColor = System.Drawing.Color.White;
+			this.buttonStopSound.Location = new System.Drawing.Point(208, 193);
+			this.buttonStopSound.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.buttonStopSound.Name = "buttonStopSound";
+			this.buttonStopSound.Size = new System.Drawing.Size(62, 30);
+			this.buttonStopSound.TabIndex = 10;
+			this.buttonStopSound.TabStop = false;
+			this.buttonStopSound.Text = "Stop";
+			this.buttonStopSound.UseVisualStyleBackColor = false;
+			this.buttonStopSound.Click += new System.EventHandler(this.buttonStopSound_Click);
+			// 
 			// panel1
 			// 
 			this.panel1.BackgroundImage = global::TTS_Application_Forms.Properties.Resources.enter_gray;
@@ -84,7 +107,7 @@ namespace TTS_Application_Forms
 			// 
 			this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
 			this.pictureBox1.Image = global::TTS_Application_Forms.Properties.Resources.Playing_60_483;
-			this.pictureBox1.Location = new System.Drawing.Point(241, 193);
+			this.pictureBox1.Location = new System.Drawing.Point(26, 177);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(35, 30);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -247,6 +270,13 @@ namespace TTS_Application_Forms
 			this.buttonCloseWindow.MouseEnter += new System.EventHandler(this.buttonCloseWindow_MouseEnter);
 			this.buttonCloseWindow.MouseLeave += new System.EventHandler(this.buttonCloseWindow_MouseLeave);
 			// 
+			// notifyIcon1
+			// 
+			this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+			this.notifyIcon1.Text = "notifyIcon1";
+			this.notifyIcon1.Visible = true;
+			this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -254,6 +284,7 @@ namespace TTS_Application_Forms
 			this.ClientSize = new System.Drawing.Size(448, 242);
 			this.Controls.Add(this.panelMain);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -289,5 +320,7 @@ namespace TTS_Application_Forms
         private System.Windows.Forms.Panel panelSoundMute;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
-    }
+		private System.Windows.Forms.NotifyIcon notifyIcon1;
+		private System.Windows.Forms.Button buttonStopSound;
+	}
 }

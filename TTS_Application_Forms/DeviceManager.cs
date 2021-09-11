@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using IrrKlang;
-using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
-using CSCore.SoundOut;
-using CSCore.Streams;
 using System.Collections.ObjectModel;
 
 namespace TTS_Application_Forms
@@ -16,11 +8,10 @@ namespace TTS_Application_Forms
     public static class DeviceManager
     {
         // events
-        public delegate void MethodContainer(bool status);
-        public static event MethodContainer onStatusDeviceAvailableChanged;
+        // -
 
         // new sound engine
-        public static readonly ObservableCollection<MMDevice> deviceCollection = new ObservableCollection<MMDevice>();
+        public static readonly ObservableCollection<MMDevice> deviceCollection = new();
 
         // fields
         public static bool isDeviceDemoAvailable = true;
@@ -66,11 +57,12 @@ namespace TTS_Application_Forms
                                         matchFoundDemo = true;
                                         myDeviceDemoObject = device;
                                         deviceDemoName = Properties.Settings.Default.DemoOutput;
-                                    } else if (device.FriendlyName == Properties.Settings.Default.OutputDevice)
+                                    } 
+                                    if (device.FriendlyName == Properties.Settings.Default.OutputDevice)
                                     {
                                         matchFoundOutput = true;
                                         myDeviceOutputObject = device;
-                                        deviceDemoName = Properties.Settings.Default.OutputDevice;
+                                        deviceOutputName = Properties.Settings.Default.OutputDevice;
                                     }
                                     deviceCollection.Add(device);
                                 }
